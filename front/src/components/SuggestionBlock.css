@@ -1,0 +1,60 @@
+.header {
+  background-color: #ea7f69;
+  color: white;
+  width: 1002px;
+  margin-bottom: 35px;
+}
+
+.info-labels {
+  display: flex;
+}
+
+.app-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.info-block {
+  margin: 0;
+  margin-right: 15px;
+  margin-left: 15px;
+  display: flex;
+  width: 300px;
+}
+
+
+.label {
+  margin-right: 8px;
+  font-style: italic;
+  margin-left: 0;
+}
+
+.candidate {
+  margin-bottom: 15px;
+  display: flex;
+  width: 1000px;
+  border: 1px;
+  border-color: #DAD7D7;
+  border-style: solid;
+  -webkit-transition-duration: 0.2s;
+  -webkit-box-shadow: 3px 3px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 2px #ccc;
+}
+
+.candidate:hover {
+  background-color: #ea7f69;
+  color: white;
+}
+
+.additionnal-info {
+  margin: 0;
+  display: flex;
+  margin-left: 15px;
+}
+
+.suggestion-zone {
+    height: 500px;
+    width: 1050px;
+    overflow: auto;
+}

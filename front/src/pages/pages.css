@@ -1,0 +1,170 @@
+.page {
+  margin: 0;
+  margin-top: 30px;
+  margin-left: 300px;
+}
+
+.page-title {
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+h3 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.alert {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    height: 40px;
+    color: grey;
+}
+
+.session-container {
+  margin-bottom: 70px;
+}
+
+.upload-section {
+  margin-top: 35px;
+}
+
+.dropzone {
+  height: 100px;
+  width: 500px;
+  text-align: center;
+  vertical-align: middle;
+  border: 2px solid #555555;
+  border-style: dotted;
+}
+
+.dropzone p {
+  vertical-align: middle;
+}
+
+.list-item {
+  display: flex;
+}
+
+.file-list-label {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.file-list-value {
+  width: 150px;
+}
+
+.filter {
+  width: 150px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+.session-button {
+  margin-top: 20px;
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+  text-align: center;
+  -webkit-transition-duration: 0.3s
+}
+.session-button:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.load-button {
+  margin-top: 20px;
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+  vertical-align: bottom;
+  text-align: center;
+}
+
+.button {
+  display: flex;
+  width: 150px;
+  margin-right: 550px;
+  text-align: center;
+  color: grey;
+  -webkit-transition-duration: 0.3s
+}
+
+.button:hover {
+  color: black;
+}
+
+.button-long {
+  margin: 0;
+  margin-bottom: 20px;
+  width: 400px;
+  height: 50px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+
+  -webkit-transition-duration: 0.4s;
+}
+
+.button-long:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.button-red {
+  display: flex;
+  width: 150px;
+  text-align: center;
+  color: black;
+  -webkit-transition-duration: 0.3s
+}
+
+.button-red:hover {
+  color: red;
+}
+
+.button-green {
+  display: flex;
+  width: 150px;
+  text-align: center;
+  color: black;
+  -webkit-transition-duration: 0.3s
+}
+
+.button-green:hover {
+  color: green;
+}
+
+.buttons {
+  display: flex;
+  width: 1002px;
+  margin-top: 40px;
+}
+
+.remaining {
+  margin-bottom: 50px;
+}
+
+.upload-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}

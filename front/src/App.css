@@ -1,0 +1,24 @@
+.App {
+  margin: 50px;
+}
+
+.title-container {
+  display: flex;
+  margin-left: 150px;
+  align-content: center;
+  text-align: center;
+  font-size: 40px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    margin: 0;
+    position: relative;
+    top: 30%;
+    -webkit-transition-duration: 0.3s;
+}
+
+a:hover {
+    color: white;
+}
