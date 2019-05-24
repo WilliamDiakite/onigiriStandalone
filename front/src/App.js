@@ -14,23 +14,29 @@ class App extends Component {
         <Router>
             <div className="App">
               <header>
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
-                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap" rel="stylesheet" />
                 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossOrigin="anonymous" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-                <div className="title-container">
-                    <p>
-                      <img
-                        className="app-icon"
-                        src={onigiri_icon}
-                        alt={"o"}
-                      />
-                    </p>
-                    <div style={{marginLeft: 10}}>
-                      <p>Onigiri</p>
-                    </div>
+                <div className='head-banner'>
+                  <div className="title-container">
+                      <p>
+                        <img
+                          className="app-icon"
+                          src={onigiri_icon}
+                          alt={"o"}
+                        />
+                      </p>
+                      <div style={{marginLeft: 10}}>
+                        <p>Onigiri</p>
+                      </div>
+                  </div>
+                  <div className='subtitle'>
+                    <div>An integration software for the Humanities</div>
+                    <div>Collaborative & Open Source</div>
+                  </div>
                 </div>
+
               </header>
 
               <Route

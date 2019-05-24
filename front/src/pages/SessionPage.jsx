@@ -33,26 +33,39 @@ export default class SessionPage extends Component {
   render() {
     return (
       <div className="page">
-        <h3>Load existing session</h3>
-        <div className="session-container">
-          <form onSubmit={this.loadUserSession}>
-            <TextField
-              id="sessionInput"
-              ref="sessionInput"
-              label="Session code"
-              style={{width:400, marginTop: 0}}
-              onChange={this.updateUserSession}
-              autoComplete='off'
-            />
-            {this.state.error}
-            <input type="submit" value="Load session" className="session-button" />
-          </form>
-        </div>
+        <div style={{display: 'flex'}}>
+        <div
+          style={{
+            width: '30%',
+            height:'100%',
+            marginLeft: '5%',
+            marginTop: '3%'
+          }}
+        ></div>
 
-        <h3>Create a new session</h3>
-        <div className="session-container">
-          <div className="session-button">
+        <div style={{width: '70%', height: '100%'}}>
+
+          <h3>Load existing session</h3>
+          <div className="session-container">
+            <form onSubmit={this.loadUserSession}>
+              <TextField
+                id="sessionInput"
+                ref="sessionInput"
+                label="Session code"
+                style={{width:400, marginTop: 0}}
+                onChange={this.updateUserSession}
+                autoComplete='off'
+              />
+              {this.state.error}
+              <input type="submit" value="Load session" className="session-button" />
+            </form>
+          </div>
+
+          <h3>Create a new session</h3>
+          <div className="session-container">
+            <div className="session-button">
               <Link to={{pathname:  "/upload"}}>Create session</Link>
+            </div>
           </div>
 
           <h3>Try our example</h3>
@@ -61,7 +74,7 @@ export default class SessionPage extends Component {
               <Link to={{pathname: '/harmony/test_session'}}>Example session</Link>
             </div>
           </div>
-
+          </div>
         </div>
       </div>
     )

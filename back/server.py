@@ -238,6 +238,25 @@ def write_new_match(match, type, session):
             f.write('\n')
 
 
+@app.route('/direct-save/', methods=['POST'])
+def direct_save():
+    load = eval(request.data)
+    pprint(load)
+
+    fpath = './sessions/%s/result.csv' % load['session']
+    data = load['data']
+
+    with open(fpath, 'w') as f:
+        labels = list(data)
+        writer = csv.DictWriter(f, fieldnames=labels)
+        if os.stat(fpath).st_size:
+            writer.writeheader()
+        writer.writerow(data)
+
+    return jsonify('direct_save_done')
+
+
+
 @app.route('/leave/', methods=['POST'])
 def leave():
     global SESSIONS

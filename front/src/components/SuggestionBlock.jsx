@@ -24,18 +24,44 @@ export default class SuggestionBlock extends Component {
 
     return (
       <div>
-        <h4>{this.props.data['__fname']}</h4>
+        <div className='title'>{this.props.data['__fname']}</div>
+          <div className='candidate'>
+            <div
+              style={{
+                backgroundColor: '#B388C4',
+                height: '100%',
+                width: '13%',
+              }}
+            ></div>
 
-        <div className="header">
-
-          <h3>{this.props.data[options['match']]}</h3>
-
-          <div className="info-labels">
-            <div className="info-block">
-              <p className="label">{options['id']}:</p>
-              <p className="value">{this.props.data[options['id']]}</p>
+            <div style={{height: '100%', width: '90%'}}>
+              <div
+                id={this.props.data[options['id']]}
+                style={{
+                  width: '100%',
+                  height: '50px',
+                  backgroundColor:'#E1E1E1'
+                }}
+              >
+              <div
+                style={{
+                  fontFamily: "'Roboto Condensed', sans-serif",
+                  fontWeight: '700',
+                  fontSize: '24px',
+                  marginLeft: '15px'
+                }}
+              >
+                {this.props.data[options['match']]}
+              </div>
             </div>
-            {labels}
+
+            <div className="info-labels">
+              <div className="info-block">
+                <p className="label">{options['id']}:</p>
+                <p className="value">{this.props.data[options['id']]}</p>
+              </div>
+              {labels}
+            </div>
           </div>
         </div>
       </div>
@@ -74,22 +100,38 @@ export default class SuggestionBlock extends Component {
           id={elt[options['id']]}
           onClick={this.confirmCandidate}
         >
-
           <div
+            id={elt[options['id']]}
             style={{
               backgroundColor: '#956060',
               height: '100%',
-              width: '15%',
-              border: '1px',
-              borderColor: '#DAD7D7',
-              borderStyle: 'solid'
+              width: '13%'
             }}
           ></div>
 
-          <div style={{height: '100%', width: '80%'}}>
-            <h3
+          <div
+            id={elt[options['id']]}
+            style={{height: '100%', width: '90%'}}
+          >
+            <div
               id={elt[options['id']]}
-            >{elt[options['match']]}</h3>
+              style={{
+                width: '100%',
+                height: '50px',
+                backgroundColor:'#E1E1E1'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily:"'Roboto Condensed', sans-serif",
+                  fontWeight: '700',
+                  fontSize: '24px',
+                  marginLeft: '15px'
+                }}
+              >
+                {elt[options['match']]}
+              </div>
+            </div>
 
             <div className="info-labels">
               <div className="info-block">
@@ -114,7 +156,14 @@ export default class SuggestionBlock extends Component {
 
     return (
       <div>
-        <h4>{`${this.props.data.suggestions[0]['__fname']} (${suggestions.length} candidates)`}</h4>
+        <div className='title'>
+          <div style={{width: '50%'}}>
+            {this.props.data.suggestions[0]['__fname']}
+          </div>
+          <div style={{align: 'right', width: '50%'}}>
+            {`(${suggestions.length} candidates)`}
+          </div>
+        </div>
         <div className="suggestion-zone">
             {suggestions}
         </div>
@@ -122,16 +171,49 @@ export default class SuggestionBlock extends Component {
     )
   }
 
+  addPrefix = (obj, prefix) => {
+    Object.keys(obj).forEach(p => {
+      obj[prefix + p] = obj[p]
+      delete obj[p]
+    })
+    return obj
+  }
+
   confirmCandidate = e => {
     const options = this.props.data['options']
-
-    console.log(parseInt(this.props.data[options['id']]), parseInt(e.target.id));
-
+    console.log('confirmCandidate', this.props.data[options['id']], e.target.id);
     this.props.matchUpdate(
-      parseInt(this.props.data[options['id']]),
-      parseInt(e.target.id),
+      this.props.data[options['id']],
+      e.target.id,
       'match'
     )
+
+    // Prepare data for direct save
+    var matched = this.props.data.suggestions.filter(o => o[o['options']['id']] == e.target.id)[0]
+    var target = this.props.data
+
+    // Delete useless data
+    delete matched.options
+    delete target.options
+    delete target.suggestions
+
+    //append prefix to attributes
+    matched = this.addPrefix(matched, 'r_')
+    target = this.addPrefix(target, 'l_')
+
+    const load = {...target, ...matched}
+    console.log('DIRECT SAVE');
+    console.log(load);
+
+    fetch('http://127.0.0.1:5000/direct-save/', {
+      method: 'post',
+      body: JSON.stringify({
+        data: load,
+        session: this.props.session
+      })
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
   }
 
   render () {

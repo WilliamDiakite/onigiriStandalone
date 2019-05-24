@@ -19,7 +19,9 @@ export default class HarmonyPage extends Component {
   }
 
   notifyExit = (e) => {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
 
     fetch('http://127.0.0.1:5000/leave/', {
       method: 'post',
@@ -51,6 +53,7 @@ export default class HarmonyPage extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         console.log('getting first suggestion...');
         // Get first suggestion
         fetch('http://127.0.0.1:5000/get-suggestion/', {
@@ -94,7 +97,6 @@ export default class HarmonyPage extends Component {
   }
 
   matchUpdate = (id1, id2) => {
-    console.log('sending session', this.state.session)
     fetch('http://127.0.0.1:5000/add-match/', {
       method: 'post',
       body: JSON.stringify(
@@ -104,7 +106,6 @@ export default class HarmonyPage extends Component {
           'session': this.state.session
         })
     }).then(response => response.json()).then(data => {
-      console.log(data)
       this.getSuggestion(this.state.suggestion)
     })
   }
@@ -170,69 +171,133 @@ export default class HarmonyPage extends Component {
       }
     ]
 
-    return (<div className="page">
+    return (
+    <div className="page">
 
-      <h3>Working on {this.state.session}</h3>
+      <div
+        style={{display: 'flex'}}
+      >
 
-      <div>
-        <p>Collaborators working on this session: {this.state.nbuser}</p>
-        <p>{this.state.total} matches to deal with</p>
-      </div>
+        <div
+          style={{
+            width: '30%',
+            height:'100%',
+            marginLeft: '5%',
+            marginTop: '3%'
+          }}
+        >
 
-      <br/>
-      <br/>
+          <div className='panel-section'>
+            <h3 className="page-title">Working on {this.state.session}</h3>
 
-      <h3 className="page-title">Choose the best match !</h3>
+            <div>
+              <p>Collaborators working on this session: {this.state.nbuser}</p>
+              <p>{this.state.total} matches to deal with</p>
+            </div>
+          </div>
 
-      <div className="filter">
-        <p>Filter nb common keys:</p>
-        <Select
-          defaultValue={options[0]}
-          options={options}
-          onChange={this.updateFilter}
-        />
-      </div>
+          <div className='panel-section'>
+            <h3 className="page-title">Matching method</h3>
 
-      {
-        this.state.suggestion === null
-          ? (<div>No data to print</div>)
-          : (<div className="suggestion-container">
+            <div className='method-container'>
+              <div className='method'>
+                <div className='method-name'>Key collision</div>
+                <div className='method-attr'>
+                  <div className='method-attr-name'>status:</div>
+                  <div className='method-attr-value'>Ready</div>
+                </div>
+              </div>
+            </div>
 
-            <SuggestionBlock
-              data={this.state.suggestion}
-              matchUpdate={this.matchUpdate}
-              common={this.state.common}
-            />
+            <div className='method-container'>
+              <div className='method'>
+                <div className='method-name'>Levensthein</div>
+                <div className='method-attr'>
+                  <div className='method-attr-name'>status:</div>
+                  <div className='method-attr-value'>Not available</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          </div>)
-      }
+          <div className='panel-section'>
+            <h3 className="page-title">Filter/sort</h3>
+            <div
+              className="filter"
+              style={{
+                display: 'flex',
+                width: '70%',
+                alignContent: 'center'
+              }}>
+              <div style={{width: '30%'}}>Common keys:</div>
+              <div style={{width: '70%'}}>
+                <Select
+                  defaultValue={options[0]}
+                  options={options}
+                  onChange={this.updateFilter}
+                />
+              </div>
+            </div>
+          </div>
 
-      <div className="buttons">
+          <div className='panel-section'>
+            <h3 className="page-title">Download</h3>
+            <div style={{display: 'flex'}}>
+              <a href='/'>Click here</a>
+              <div style={{marginLeft: '3px'}}>
+                to download the integrated dataset
+              </div>
+            </div>
+          </div>
 
-        <div className="button">
-          <Link to='/home'>
-            Back home
-          </Link>
+          <div className='panel-section'>
+            <h3 className="page-title">History</h3>
+          </div>
+
         </div>
 
-        {
-          this.state.previous.length > 0
-            ? (<div className="button-red">
-              <p onClick={this.undo}>
-                Undo
+        <div
+          style={{width: '70%', height: '100%'}}
+        >
+          {this.state.suggestion === null
+            ? (<div>No data to print</div>)
+            : (<div className="suggestion-container">
+                  <SuggestionBlock
+                    data={this.state.suggestion}
+                    matchUpdate={this.matchUpdate}
+                    common={this.state.common}
+                    session={this.state.session}
+                  />
+                </div>
+          )}
+
+          <div className="buttons">
+
+            <div className="button">
+              <Link to='/home'>
+                Back home
+              </Link>
+            </div>
+
+            {this.state.previous.length > 0
+              ? ( <div className="button-red">
+                    <p onClick={this.undo}>
+                    Undo
+                    </p>
+                  </div>
+                )
+              : <div className="button-red"/>
+            }
+
+            <div className="button-red">
+              <p onClick={this.noMatchUpdate} id="no-match">
+                No Match !
               </p>
-            </div>)
-            : (<div className="button-red"/>)
-        }
+            </div>
 
-        <div className="button-red">
-          <p onClick={this.noMatchUpdate} id="no-match">
-            No Match !
-          </p>
+          </div>
         </div>
-
       </div>
-
     </div>)
   }
 }
