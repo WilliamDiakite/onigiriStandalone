@@ -85,10 +85,11 @@ export default class SuggestionBlock extends Component {
               return(
                 <div
                   key={`${elt[options['id']]}-label-{i}`}
+                  id={elt[options['id']]}
                   className="info-block"
                 >
-                  <p className="label">{l}:</p>
-                  <p className="value">{elt[l]}</p>
+                  <p id={elt[options['id']]} className="label">{l}:</p>
+                  <p id={elt[options['id']]} className="value">{elt[l]}</p>
                 </div>
               )
             })
@@ -122,6 +123,7 @@ export default class SuggestionBlock extends Component {
               }}
             >
               <div
+                id={elt[options['id']]}
                 style={{
                   fontFamily:"'Roboto Condensed', sans-serif",
                   fontWeight: '700',
@@ -133,10 +135,14 @@ export default class SuggestionBlock extends Component {
               </div>
             </div>
 
-            <div className="info-labels">
-              <div className="info-block">
-                <p className="label">{options['id']}:</p>
-                <p className="value">{elt[options['id']]}</p>
+            <div
+              id={elt[options['id']]}
+              className="info-labels">
+              <div
+                id={elt[options['id']]}
+                className="info-block">
+                <p id={elt[options['id']]} className="label">{options['id']}:</p>
+                <p id={elt[options['id']]} className="value">{elt[options['id']]}</p>
               </div>
               {labels}
             </div>
@@ -189,8 +195,16 @@ export default class SuggestionBlock extends Component {
     )
 
     // Prepare data for direct save
-    var matched = this.props.data.suggestions.filter(o => o[o['options']['id']] == e.target.id)[0]
+    var matched = this.props.data.suggestions.filter(o => o[o['options']['id']] === e.target.id)[0]
     var target = this.props.data
+
+    if (!matched) {
+      console.log('\nERROR');
+      console.log(this.props.data);
+      console.log(e.target.id, '\n');
+
+      return
+    }
 
     // Delete useless data
     delete matched.options
@@ -202,8 +216,6 @@ export default class SuggestionBlock extends Component {
     target = this.addPrefix(target, 'l_')
 
     const load = {...target, ...matched}
-    console.log('DIRECT SAVE');
-    console.log(load);
 
     fetch('http://127.0.0.1:5000/direct-save/', {
       method: 'post',

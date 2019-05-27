@@ -27,7 +27,7 @@ class App extends Component {
                           alt={"o"}
                         />
                       </p>
-                      <div style={{marginLeft: 10}}>
+                      <div style={{marginLeft: 20}}>
                         <p>Onigiri</p>
                       </div>
                   </div>
@@ -40,11 +40,11 @@ class App extends Component {
               </header>
 
               <Route
-                path="/home"
+                path="/" exact
                 component={SessionPage}
               />
               <Route
-                path="/upload"
+                path="/upload" exact
                 component={UploadPage}
               />
 

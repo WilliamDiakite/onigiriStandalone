@@ -9,6 +9,7 @@ export default class HarmonyPage extends Component {
   constructor() {
     super()
     this.state = {
+      loaded: false,
       session: null,
       suggestion: null,
       previous: [],
@@ -26,11 +27,8 @@ export default class HarmonyPage extends Component {
     fetch('http://127.0.0.1:5000/leave/', {
       method: 'post',
       body: JSON.stringify(this.state.session)
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
+    }).then(res => res.json()).then(data => console.log(data))
   }
-
 
   componentWillUnmount() {
     this.notifyExit();
@@ -38,10 +36,7 @@ export default class HarmonyPage extends Component {
 
   componentDidMount() {
 
-    console.log(this.props.history);
-
     window.onbeforeunload = (e) => this.notifyExit(e)
-
 
     const {handle} = this.props.match.params
 
@@ -50,26 +45,25 @@ export default class HarmonyPage extends Component {
     fetch('http://127.0.0.1:5000/load-session/', {
       method: 'post',
       body: JSON.stringify(handle)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        console.log('getting first suggestion...');
-        // Get first suggestion
-        fetch('http://127.0.0.1:5000/get-suggestion/', {
-          method: 'post',
-          body: JSON.stringify(handle)
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      console.log('getting first suggestion...');
+      // Get first suggestion
+      fetch('http://127.0.0.1:5000/get-suggestion/', {
+        method: 'post',
+        body: JSON.stringify(handle)
+      }).then(res => res.json()).then(data => {
+        this.setState({
+          ...this.state,
+          session: handle,
+          suggestion: data['suggestion'],
+          nbuser: data['nbuser'],
+          total: data['total'],
+          common: 1,
+          loaded: true
         })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            this.setState({session: handle,
-                           suggestion: data['suggestion'],
-                           nbuser: data['nbuser'],
-                           total: data['total'],
-                           common: 1})
-          })
       })
+    })
   }
 
   getSuggestion = (prevSuggestion) => {
@@ -78,20 +72,25 @@ export default class HarmonyPage extends Component {
       body: JSON.stringify(this.state.session)
     }).then(response => response.json()).then(data => {
       console.log('received suggestion');
-      console.log(data)
       if (prevSuggestion === null) {
-        this.setState({suggestion: data['suggestion'],
-                         nbuser: data['nbuser'],
-                         total: data['total'],
-                         common: 1})
+        this.setState({
+          ...this.state,
+          suggestion: data['suggestion'],
+          nbuser: data['nbuser'],
+          total: data['total'],
+          common: 1
+        })
       } else {
         var prev = this.state.previous
         prev.push(this.state.suggestion)
-        this.setState({suggestion: data['suggestion'],
-                        nbuser: data['nbuser'],
-                        total: data['total'],
-                        previous: prev,
-                        common: 1})
+        this.setState({
+          ...this.state,
+          suggestion: data['suggestion'],
+          nbuser: data['nbuser'],
+          total: data['total'],
+          previous: prev,
+          common: 1
+        })
       }
     })
   }
@@ -99,12 +98,13 @@ export default class HarmonyPage extends Component {
   matchUpdate = (id1, id2) => {
     fetch('http://127.0.0.1:5000/add-match/', {
       method: 'post',
-      body: JSON.stringify(
-        {
-          'match': [[JSON.stringify(id1), JSON.stringify(id2)]],
-          'type': 'match',
-          'session': this.state.session
-        })
+      body: JSON.stringify({
+        'match': [
+          [JSON.stringify(id1), JSON.stringify(id2)]
+        ],
+        'type': 'match',
+        'session': this.state.session
+      })
     }).then(response => response.json()).then(data => {
       this.getSuggestion(this.state.suggestion)
     })
@@ -123,34 +123,28 @@ export default class HarmonyPage extends Component {
 
     fetch('http://127.0.0.1:5000/add-match/', {
       method: 'post',
-      body: JSON.stringify(
-            {
-              'match': no_match,
-              'type': 'no_match',
-              'session': this.state.session
-            })
+      body: JSON.stringify({'match': no_match, 'type': 'no_match', 'session': this.state.session})
+    }).then(response => response.json()).then(data => {
+      this.getSuggestion(this.state.suggestion)
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        this.getSuggestion(this.state.suggestion)
-      })
   }
 
   undo = e => {
     const previous = this.state.previous
     const prev = previous.pop()
 
+    console.log(prev);
+
     this.setState({suggestion: prev, previous: previous})
   }
-
-  back = e => this.props.updateCurrentPage('home', null)
 
   updateFilter = (selected) => {
     this.setState({common: selected.value})
   }
 
   render() {
+
+    console.log(this.state.loaded);
 
     const options = [
       {
@@ -171,28 +165,24 @@ export default class HarmonyPage extends Component {
       }
     ]
 
-    return (
-    <div className="page">
-
-      <div
-        style={{display: 'flex'}}
-      >
-
-        <div
-          style={{
+    return (<div className="page">
+      <div style={{
+          display: 'flex'
+        }}>
+        <div style={{
             width: '30%',
-            height:'100%',
-            marginLeft: '5%',
+            height: '100%',
+            marginLeft: '10%',
             marginTop: '3%'
-          }}
-        >
+          }}>
 
           <div className='panel-section'>
             <h3 className="page-title">Working on {this.state.session}</h3>
 
             <div>
               <p>Collaborators working on this session: {this.state.nbuser}</p>
-              <p>{this.state.total} matches to deal with</p>
+              <p>{this.state.total}
+                matches to deal with</p>
             </div>
           </div>
 
@@ -222,29 +212,31 @@ export default class HarmonyPage extends Component {
 
           <div className='panel-section'>
             <h3 className="page-title">Filter/sort</h3>
-            <div
-              className="filter"
-              style={{
+            <div className="filter" style={{
                 display: 'flex',
                 width: '70%',
                 alignContent: 'center'
               }}>
-              <div style={{width: '30%'}}>Common keys:</div>
-              <div style={{width: '70%'}}>
-                <Select
-                  defaultValue={options[0]}
-                  options={options}
-                  onChange={this.updateFilter}
-                />
+              <div style={{
+                  width: '30%'
+                }}>Common keys:</div>
+              <div style={{
+                  width: '70%'
+                }}>
+                <Select defaultValue={options[0]} options={options} onChange={this.updateFilter}/>
               </div>
             </div>
           </div>
 
           <div className='panel-section'>
             <h3 className="page-title">Download</h3>
-            <div style={{display: 'flex'}}>
+            <div style={{
+                display: 'flex'
+              }}>
               <a href='/'>Click here</a>
-              <div style={{marginLeft: '3px'}}>
+              <div style={{
+                  marginLeft: '3px'
+                }}>
                 to download the integrated dataset
               </div>
             </div>
@@ -256,47 +248,57 @@ export default class HarmonyPage extends Component {
 
         </div>
 
-        <div
-          style={{width: '70%', height: '100%'}}
-        >
-          {this.state.suggestion === null
-            ? (<div>No data to print</div>)
-            : (<div className="suggestion-container">
-                  <SuggestionBlock
-                    data={this.state.suggestion}
-                    matchUpdate={this.matchUpdate}
-                    common={this.state.common}
-                    session={this.state.session}
-                  />
-                </div>
-          )}
+        {
+          this.state.loaded
+            ? (
+              <div style={{
+                width: '70%',
+                height: '100%'
+              }}>
+              {
+                this.state.suggestion === null
+                ? (<div>No data to print</div>)
+                : (<div className="suggestion-container">
+                <SuggestionBlock data={this.state.suggestion} matchUpdate={this.matchUpdate} common={this.state.common} session={this.state.session}/>
+                </div>)
+              }
 
-          <div className="buttons">
+              <div className="buttons">
 
-            <div className="button">
-              <Link to='/home'>
-                Back home
-              </Link>
-            </div>
+              <div className="button">
+                <Link to='/home'>
+                  Back home
+                </Link>
+              </div>
 
-            {this.state.previous.length > 0
-              ? ( <div className="button-red">
-                    <p onClick={this.undo}>
-                    Undo
+              {
+                this.state.previous.length > 0
+                ? (<div className="button-red">
+                <p onClick={this.undo}>
+                Undo
+                </p>
+                </div>)
+                : <div className="button-red"/>
+              }
+
+                  <div className="button-red">
+                    <p onClick={this.noMatchUpdate} id="no-match">
+                      No Match !
                     </p>
                   </div>
-                )
-              : <div className="button-red"/>
-            }
 
-            <div className="button-red">
-              <p onClick={this.noMatchUpdate} id="no-match">
-                No Match !
-              </p>
-            </div>
+                </div>
+              </div>
 
-          </div>
-        </div>
+            )
+            : (
+              <div>
+                <img alt=""></img>
+                <div>Loading session</div>
+              </div>)
+        }
+
+
       </div>
     </div>)
   }

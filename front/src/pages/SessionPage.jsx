@@ -38,7 +38,7 @@ export default class SessionPage extends Component {
           style={{
             width: '30%',
             height:'100%',
-            marginLeft: '5%',
+            marginLeft: '10%',
             marginTop: '3%'
           }}
         ></div>

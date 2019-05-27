@@ -246,10 +246,10 @@ def direct_save():
     fpath = './sessions/%s/result.csv' % load['session']
     data = load['data']
 
-    with open(fpath, 'w') as f:
+    with open(fpath, 'a') as f:
         labels = list(data)
         writer = csv.DictWriter(f, fieldnames=labels)
-        if os.stat(fpath).st_size:
+        if os.stat(fpath).st_size == 0:
             writer.writeheader()
         writer.writerow(data)
 

@@ -10,14 +10,16 @@
 }
 
 .title-container {
+  width: 32%;
+  margin-left: 10%;
   display: flex;
-  margin-left: 5%;
   width: 29%;
   text-align: center;
   font-size: 40px;
 }
 
 .subtitle {
+  width: 68%;
   margin-top: 2%;
   font-size: 24px;
   font-weight: 300;

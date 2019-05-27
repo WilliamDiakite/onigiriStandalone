@@ -20,9 +20,9 @@
   border-color: #DAD7D7;
   border-style: solid;
   -webkit-transition-duration: 0.2s;
-  -webkit-box-shadow: 3px 3px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow:    3px 3px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
-  box-shadow:         3px 3px 5px 2px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 1px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 1px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 1px #ccc;
 }
 
 .info-labels {
@@ -61,15 +61,15 @@
   border-color: #DAD7D7;
   border-style: solid;
   -webkit-transition-duration: 0.2s;
-  -webkit-box-shadow: 3px 3px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow:    3px 3px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
-  box-shadow:         3px 3px 5px 2px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 1px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 1px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 1px #ccc;
 }
 
 .candidate:hover {
-  -webkit-box-shadow: 3px 3px 5px 10px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow:    3px 3px 5px 10px #ccc;  /* Firefox 3.5 - 3.6 */
-  box-shadow:         3px 3px 5px 10px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 5px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 5px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 5px #ccc;
 }
 
 .additionnal-info {
