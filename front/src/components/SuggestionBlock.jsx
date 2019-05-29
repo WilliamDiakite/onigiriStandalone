@@ -187,7 +187,6 @@ export default class SuggestionBlock extends Component {
 
   confirmCandidate = e => {
     const options = this.props.data['options']
-    console.log('confirmCandidate', this.props.data[options['id']], e.target.id);
     this.props.matchUpdate(
       this.props.data[options['id']],
       e.target.id,
@@ -195,14 +194,11 @@ export default class SuggestionBlock extends Component {
     )
 
     // Prepare data for direct save
-    var matched = this.props.data.suggestions.filter(o => o[o['options']['id']] === e.target.id)[0]
+    var matched = this.props.data.suggestions.find(elt => elt[elt['options']['id']].toString() === e.target.id)
     var target = this.props.data
 
     if (!matched) {
       console.log('\nERROR');
-      console.log(this.props.data);
-      console.log(e.target.id, '\n');
-
       return
     }
 
@@ -216,6 +212,8 @@ export default class SuggestionBlock extends Component {
     target = this.addPrefix(target, 'l_')
 
     const load = {...target, ...matched}
+
+    console.log('DIRECT SAVE');
 
     fetch('http://127.0.0.1:5000/direct-save/', {
       method: 'post',

@@ -132,9 +132,6 @@ export default class HarmonyPage extends Component {
   undo = e => {
     const previous = this.state.previous
     const prev = previous.pop()
-
-    console.log(prev);
-
     this.setState({suggestion: prev, previous: previous})
   }
 
@@ -143,9 +140,6 @@ export default class HarmonyPage extends Component {
   }
 
   render() {
-
-    console.log(this.state.loaded);
-
     const options = [
       {
         value: 1,
