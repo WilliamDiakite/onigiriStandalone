@@ -133,15 +133,16 @@ def load_suggestions(session_name):
             suggestions = pickle.load(fs)
             print('LEN OF LOADED SUGG BEFORE FILTER', len(suggestions))
             try:
-                with open(mfile) as fm:
-                    read = list(set([l.split(',')[0] for l in fm.readlines()]))
-                    print(read)
+                read = pd.read_csv(mfile)
+                read = read['from'].astype(str).tolist()
+                # with open(mfile) as fm:
+                #     read = list(set([l.split(',')[0] for l in fm.readlines()]))
+                print(read)
             except Exception as e:
                 print('there was an exception when loading matched data', e)
                 return suggestions
             suggestions = [s for s in suggestions
-                            if not any(id in [str(v) for v in s[s['options']['id']]]
-                                        for id in read)]
+                            if not s[s['options']['id']] in read]
             print('LEN OF LOADED SUGG AFTER FILTER', len(suggestions))
             return suggestions
     else:
@@ -213,6 +214,7 @@ def get_suggestion():
         else:
             print('session is not loaded anymore')
             return jsonify('null')
+    return jsonify('null')
 
 
 @app.route('/add-match/', methods=['POST'])
@@ -231,6 +233,10 @@ def add_match():
 def write_new_match(match, type, session):
     path = './sessions/%s/matched.csv' % session
     with open(path, 'a') as f:
+        if os.stat(path).st_size == 0:
+            line = '%s, %s, %s' % ('from', 'to', 'type')
+            f.write(line)
+            f.write('\n')
         for m in match:
             line = '%s, %s, %s' % (str(m[0]), str(m[1]), type)
             print('writing', line)
