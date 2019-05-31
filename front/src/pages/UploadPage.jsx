@@ -6,9 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import Select from 'react-select'
 import './pages.css'
 
-import testLoad from './test_load.json'
-
-
 
 export default class UploadPage extends Component {
 
@@ -135,14 +132,6 @@ export default class UploadPage extends Component {
       .then(response => response.json())
   }
 
-  testUploadFiles = () => {
-      return fetch('http://127.0.0.1:5000/create-session/', {
-        method: 'post',
-        body: JSON.stringify(testLoad)
-      })
-        .then(response => response.json())
-  }
-
   resetFiles = () => {
     this.setState({files: [],
                     contents: [],
@@ -239,10 +228,6 @@ export default class UploadPage extends Component {
                 </div>
             : null
           }
-
-          <div className="session-button" onClick={this.testUploadFiles }>
-            Retry
-          </div>
 
           {this.state.doUpload
             ? <Async promiseFn={this.uploadFiles}>

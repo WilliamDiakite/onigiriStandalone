@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import HarmonyPage from './pages/HarmonyPage'
 import SessionPage from './pages/SessionPage'
 import UploadPage from './pages/UploadPage'
+import ShutdownPage from './pages/ShutdownPage'
 
 import './App.css'
 import onigiri_icon from './img/onigiri_icon.png'
 
 class App extends Component {
+
+  shutdown = () => {
+    window.close()
+    console.log('shuting down');
+    fetch('http://127.0.0.1:5000/shutdown/')
+      .then(res => res.json())
+      .then(data =>  console.log(data))
+
+  }
   render() {
     return (
         <Router>
@@ -35,6 +45,14 @@ class App extends Component {
                     <div>An integration software for the Humanities</div>
                     <div>Collaborative & Open Source</div>
                   </div>
+                  <div
+                    className='exit'
+                    onClick={this.shutdown}
+                  >
+                    <Link to='/shutdown'>
+                        <div>Shutdown</div>
+                    </Link>
+                  </div>
                 </div>
 
               </header>
@@ -51,6 +69,11 @@ class App extends Component {
               <Route
                 path="/harmony/:handle"
                 component={HarmonyPage}
+              />
+
+              <Route
+                path='/shutdown'
+                component={ShutdownPage}
               />
             </div>
         </Router>

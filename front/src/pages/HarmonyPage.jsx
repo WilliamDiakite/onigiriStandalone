@@ -139,6 +139,15 @@ export default class HarmonyPage extends Component {
     this.setState({common: selected.value})
   }
 
+  download = () => {
+    fetch('http://127.0.0.1:5000/download/', {
+      method: 'post',
+      body: JSON.stringify(this.state.session)
+    })
+      .then(res => res.json)
+      .then(data => console.log(data))
+  }
+
   render() {
     const options = [
       {
@@ -159,7 +168,7 @@ export default class HarmonyPage extends Component {
       }
     ]
 
-    return (<div className="page">
+    return (
       <div style={{
           display: 'flex'
         }}>
@@ -224,10 +233,13 @@ export default class HarmonyPage extends Component {
 
           <div className='panel-section'>
             <h3 className="page-title">Download</h3>
-            <div style={{
-                display: 'flex'
+            <div
+              onClick={this.download}
+              style={{
+                display: 'flex',
+                cursor: 'pointer'
               }}>
-              <a href='/'>Click here</a>
+              Click here
               <div style={{
                   marginLeft: '3px'
                 }}>
@@ -294,6 +306,6 @@ export default class HarmonyPage extends Component {
 
 
       </div>
-    </div>)
+    )
   }
 }

@@ -10,20 +10,33 @@
 }
 
 .title-container {
-  width: 32%;
+  width: 21.5%;
+  height: 100%;
   margin-left: 10%;
   display: flex;
-  width: 29%;
   text-align: center;
   font-size: 40px;
 }
 
 .subtitle {
-  width: 68%;
+  height: 100%;
+  width: 48%;
   margin-top: 2%;
+  margin-left: 5.3%;
   font-size: 24px;
   font-weight: 300;
 }
+
+.exit {
+  width: 5%;
+  height: 100%;
+  margin-top: 2.5%;
+  margin-left: 7%;
+  font-size: 24px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
 
 a {
     text-decoration: none;

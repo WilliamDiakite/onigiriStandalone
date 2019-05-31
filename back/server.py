@@ -1,17 +1,13 @@
-import json
 import os
+import subprocess
 import pandas as pd
-import traceback
-import json
 import shutil
 import csv
-import ijson
 import pickle
 
 from heavy import compute_all_suggestions
 
-from uuid import uuid4
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from celery import Celery
 
@@ -91,9 +87,6 @@ def create_session():
     data = load['load']
 
     print(list(data[0].keys()))
-
-    with open('test_load.json', 'w') as f:
-        json.dump(load, f, ensure_ascii=False)
 
     # Create new session
     path = 'sessions/%s/' % session
@@ -263,6 +256,23 @@ def direct_save():
 
 
 
+@app.route('/download/', methods=['POST'])
+def download():
+    print('download requested')
+    session = eval(request.data)
+
+    # Remove duplicates from file
+    rpath = 'sessions/%s/result.csv' % session
+    result = pd.read_csv(rpath).drop_duplicates(keep='last')
+    result.to_csv(rpath)
+
+    # Send file
+    dir = './sessions/' + session
+    return send_from_directory(directory=dir, filename='result.csv')
+
+
+
+
 @app.route('/leave/', methods=['POST'])
 def leave():
     global SESSIONS
@@ -288,6 +298,14 @@ def leave():
                 SESSIONS[i] = session
 
     return jsonify('user_leave')
+
+
+@app.route('/shutdown/')
+def shutdown():
+    print('[ + ] shuting down...')
+    os.system('kill -9 $(lsof -t -i:3000 -sTCP:LISTEN)')
+    os.system('kill -9 $(lsof -t -i:5000 -sTCP:LISTEN)')
+    return jsonify('shutdown')
 
 if __name__ == '__main__':
     app.run(debug=True)
