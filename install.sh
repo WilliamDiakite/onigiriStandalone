@@ -1,4 +1,4 @@
 git pull
-pip install requirements.txt
-cd ../front
+pip install -r requirements.txt
+cd front
 npm install
