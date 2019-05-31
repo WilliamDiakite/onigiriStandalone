@@ -14,25 +14,28 @@ This version of the app allows you to run Onigiri on a local machine or local se
 
 ## How do I install Onigiri Standalone version ?
 
-#### Install the required tools
+### Install the required tools
 
 Install [NodeJS](https://nodejs.org/en/download/)
+
 Install [Python3](https://www.python.org/downloads/)
+
 Install [RabbitMQ](https://www.rabbitmq.com/download.html)
 
 Before starting the installation, make sure RabbitMQ has started by running the following command:
 > rabbitmq-server start
 
-#### Install OnigiriStandalone
+### Install OnigiriStandalone
 
-Open a terminal and clone the repo:
+Open a terminal and clone the repo
 > git clone https://github.com/WilliamDiakite/onigiriStandalone.git
 
-Enter the response
+Enter the repo
 > cd onigiriStandalone
 
 Make the bash scripts executable
 > chmod +x install.sh
+
 > chmod +x run.sh
 
 Install and update Onigiri
