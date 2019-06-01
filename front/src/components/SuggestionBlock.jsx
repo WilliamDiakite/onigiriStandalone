@@ -77,7 +77,6 @@ export default class SuggestionBlock extends Component {
     const options = this.props.data.suggestions[0]['options']
 
     var suggestions = this.props.data.suggestions
-        .sort((a,b) => a[a.options['match']] - b[b.options['match']])
         .filter(a => a.common >= this.props.common)
         .map((elt, i) => {
 

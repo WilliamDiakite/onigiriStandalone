@@ -41,21 +41,24 @@ def hashjoin(A, B, opts, fnames):
         a['options'] = opts[0]
         a['__fname'] = fnames[0]
 
-        # Find candidates
+        # For each key
         a['suggestions'] = []
         for k in key_a:
 
-            # thanks to buckets
+            # We append candidates from similar buckets
             if k in bucket:
                 for c in bucket[k]:
-                    if c not in a['suggestions']:
-                        c['common'] = len(list(set(key_a) & set(fingerprint(c, opts[1]['match']))))
-                        a['suggestions'].append(c)
-                if time() - t > 1:
-                    print(len(a['suggestions']))
-                    print(key_a)
-                    print()
-                yield a
+                    c['common'] = len(list(set(key_a) & set(fingerprint(c, opts[1]['match']))))
+                    a['suggestions'].append(c)
+
+        if len(a['suggestions']) > 0:
+            # Remove duplicates
+            # SEE: https://stackoverflow.com/questions/11092511/python-list-of-unique-dictionaries
+            a['suggestions'] = list({s[opts[1]['id']]: s for s in a['suggestions']}.values())
+
+            # sort candidates
+            a['suggestions'] = sorted(a['suggestions'], key=lambda x: x[opts[1]['match']])
+            yield a
 
 
 
@@ -85,7 +88,7 @@ def compute_all_suggestions(data, session_path):
                     low_memory=False,
                     encoding='utf-8').drop_duplicates(subset=opts[1]['id']).fillna('nan').to_dict('records')
 
-    if len(a) > len(b):
+    if len(a) < len(b):
         result = list(hashjoin(a, b, opts, fnames))
     else:
         result = list(hashjoin(b, a, opts[::-1], fnames[::-1]))
