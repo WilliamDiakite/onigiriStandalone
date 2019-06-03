@@ -16,14 +16,27 @@ This version of the app allows you to run Onigiri on a local machine or local se
 
 ### Install the required tools
 
-Install [NodeJS](https://nodejs.org/en/download/)
+#### Install [NodeJS](https://nodejs.org/en/download/)
 
-Install [Python3](https://www.python.org/downloads/)
+#### Install [Python3](https://www.python.org/downloads/)
 
-Install [RabbitMQ](https://www.rabbitmq.com/download.html)
+#### Install [RabbitMQ](https://www.rabbitmq.com/download.html)
 
-Before starting the installation, make sure RabbitMQ has started by running the following command:
-> rabbitmq-server start
+
+Before starting the installation, make sure RabbitMQ is added to your path
+> nano ~/.bash_profile
+
+Then add the following line:
+> export PATH=$PATH:/usr/local/opt/rabbitmq/sbin
+
+To save and close nano editor click:
+- CTRL+X to exit
+- then Y to confirm new changes
+- then ENTER to confirm
+
+Finally, start the rabbitmq server by executing
+> rabbitmq-server
+
 
 ### Install OnigiriStandalone
 
