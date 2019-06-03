@@ -61,6 +61,13 @@ def hashjoin(A, B, opts, fnames):
             yield a
 
 
+def compare(a, b):
+    a = a.lower()
+    b = b.lower()
+
+    
+
+
 
 
 def compute_all_suggestions(data, session_path):
