@@ -272,7 +272,7 @@ export default class HarmonyPage extends Component {
               <div className="buttons">
 
               <div className="button">
-                <Link to='/home'>
+                <Link to='/'>
                   Back home
                 </Link>
               </div>
